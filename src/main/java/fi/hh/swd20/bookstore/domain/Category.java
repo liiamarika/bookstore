@@ -2,11 +2,14 @@ package fi.hh.swd20.bookstore.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Category {
@@ -16,7 +19,8 @@ public class Category {
 	private Long categoryid;
 	private String name;
 	
-	@OneToMany(mappedBy="category")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="category")
+	@JsonIgnoreProperties("category")  // one way to avoid infinite loop during JSON serialization/deserialization
 	private List<Book> books;
 
 	
